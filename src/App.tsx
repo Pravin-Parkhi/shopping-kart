@@ -1,7 +1,8 @@
 import './App.css';
+import ProductList from './features/ProductListPage';
 
 function App() {
-  return <div>Hello World!</div>;
+  return <ProductList />;
 }
 
 export default App;
