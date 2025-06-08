@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
-import { Box, CardMedia, Paper, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Box, CardMedia, Typography, useMediaQuery, useTheme } from '@mui/material';
 import CartEmptyState from './CartEmptyState';
 import { useCart } from '../../core/CartDataProvider/CartContext';
 import CartItem from './CartItem';
