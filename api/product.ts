@@ -1,18 +1,10 @@
-export default async function handler() {
-  const url = 'https://orderfoodonline.deno.dev/api/product';
-
+export default async function handler(req, res) {
   try {
-    const response = await fetch(url);
+    const response = await fetch('https://orderfoodonline.deno.dev/api/product');
     const data = await response.json();
-
-    return new Response(JSON.stringify(data), {
-      status: 200,
-      headers: { 'Content-Type': 'application/json' },
-    });
+    res.status(200).json(data);
   } catch (error) {
-    console.error(error);
-    return new Response(JSON.stringify({ message: 'Failed to fetch products' }), {
-      status: 500,
-    });
+    console.error('Proxy error:', error);
+    res.status(500).json({ error: 'Server error in proxy' });
   }
 }
