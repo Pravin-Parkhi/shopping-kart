@@ -3,7 +3,7 @@ import { Global } from '@emotion/react';
 import { styled } from '@mui/material/styles';
 import { grey } from '@mui/material/colors';
 import SwipeableDrawer from '@mui/material/SwipeableDrawer';
-import { Box } from '@mui/material';
+import { Box, Paper } from '@mui/material';
 
 const drawerBleeding = 56;
 
@@ -11,6 +11,7 @@ interface SwipeableEdgeDrawerProps {
   window?: () => Window;
   header: React.ReactNode;
   content: React.ReactNode;
+  footer: React.ReactNode;
 }
 
 const Root = styled('div')(({ theme }) => ({
@@ -42,14 +43,13 @@ const Puller = styled('div')(({ theme }) => ({
 }));
 
 export default function SwipeableEdgeDrawer(props: SwipeableEdgeDrawerProps) {
-  const { window, header, content } = props;
+  const { window, header, content, footer } = props;
   const [open, setOpen] = React.useState(false);
 
   const toggleDrawer = (newOpen: boolean) => () => {
     setOpen(newOpen);
   };
 
-  // This is used only for the example
   const container = window !== undefined ? () => window().document.body : undefined;
 
   return (
@@ -87,6 +87,9 @@ export default function SwipeableEdgeDrawer(props: SwipeableEdgeDrawerProps) {
           <Box p={2}>{header}</Box>
         </StyledBox>
         <StyledBox sx={{ px: 2, pb: 2, height: '100%', overflow: 'auto' }}>{content}</StyledBox>
+        <Paper elevation={3} sx={{ px: 2, pb: 2 }}>
+          {footer}
+        </Paper>
       </SwipeableDrawer>
     </Root>
   );

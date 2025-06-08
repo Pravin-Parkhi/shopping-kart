@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import type { Product } from '../../data/types/product';
-import { Box, CardMedia, Typography, useTheme } from '@mui/material';
+import { Box, CardMedia, Typography, useMediaQuery, useTheme } from '@mui/material';
 import AddToCartButton from '../AddToCartButton';
 import { useCart } from '../../core/CartDataProvider/CartContext';
 
@@ -10,6 +10,9 @@ interface ProductCardProps {
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const theme = useTheme();
+
+  const isTablet = useMediaQuery(theme.breakpoints.between('sm', 'md'));
+  const isDesktop = useMediaQuery(theme.breakpoints.up('md'));
 
   const { name, image, price, category } = product;
   const { cartItems, addToCart, removeFromCart } = useCart();
@@ -23,6 +26,12 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     () => cartItems?.find((item) => item.id === product.id)?.quantity || 0,
     [cartItems, product.id]
   );
+
+  const imageSrc = useMemo(() => {
+    if (isDesktop) return image.desktop;
+    if (isTablet) return image.tablet;
+    return image.mobile;
+  }, [image, isDesktop, isTablet]);
 
   const handleAddToCart = useCallback(() => {
     addToCart(product);
@@ -38,7 +47,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <CardMedia
           component="img"
           height={240}
-          image={image.mobile}
+          image={imageSrc}
           alt={name}
           sx={{
             objectFit: 'cover',
@@ -63,11 +72,11 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
           />
         </Box>
       </Box>
-      <Box pt={2}>
-        <Typography variant="subtitle1" color="textSecondary">
+      <Box pt={5}>
+        <Typography variant="subtitle2" color="textSecondary">
           {category}
         </Typography>
-        <Typography variant="h5" color="primarySecondary" py={0.5}>
+        <Typography variant="body1" color="primarySecondary" py={0.5}>
           {name}
         </Typography>
         <Typography variant="subtitle2" color="primary">

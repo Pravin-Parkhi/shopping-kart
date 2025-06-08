@@ -51,9 +51,18 @@ const ProductListPage: React.FC = () => {
   return (
     <BaseLayout>
       <Container maxWidth="lg" sx={{ py: 4 }}>
-        <Box display="flex" gap={{ md: 2 }}>
+        <Box display="flex">
           <ProductList />
-          <ProductCart orderConfirmCallback={handleOrderConfirm} />
+          <Box
+            sx={{
+              position: 'sticky',
+              top: 80,
+              alignSelf: 'flex-start',
+              zIndex: 10,
+            }}
+          >
+            <ProductCart orderConfirmCallback={handleOrderConfirm} />
+          </Box>
         </Box>
         <OrderConfirmationDialog
           open={showOrderConfirmationDialog}

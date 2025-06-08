@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from 'react';
 import { Box, CardMedia, Divider, IconButton, Typography } from '@mui/material';
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 import type { CartItem as CartItemType } from '../../data/types/cart';
 
 interface CartItemProps {
@@ -70,7 +70,7 @@ const CartItem: React.FC<CartItemProps> = ({
         ) : (
           <Box width="40px" p={1}>
             <IconButton size="small" sx={{ color: 'brown' }} onClick={onDeleteClick}>
-              <RemoveCircleOutlineIcon />
+              <CancelOutlinedIcon />
             </IconButton>
           </Box>
         )}

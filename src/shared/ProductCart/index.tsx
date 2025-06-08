@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
-import { Box, CardMedia, Typography, useMediaQuery, useTheme } from '@mui/material';
+import { Box, CardMedia, Paper, Typography, useMediaQuery, useTheme } from '@mui/material';
 import CartEmptyState from './CartEmptyState';
 import { useCart } from '../../core/CartDataProvider/CartContext';
 import CartItem from './CartItem';
@@ -51,6 +51,16 @@ const ProductCart: React.FC<ProductCartProps> = ({ orderConfirmCallback }) => {
               deleteCartItemCallback={handleDeleteCartItem}
             />
           ))}
+        </Box>
+      );
+    }
+    return <CartEmptyState />;
+  };
+
+  const CartFooter = () => {
+    if (hasItemsInCart) {
+      return (
+        <Box>
           <Box py={3} display="flex" justifyContent="space-between">
             <Typography variant="h6" color="textSecondary">
               Order Total
@@ -95,25 +105,44 @@ const ProductCart: React.FC<ProductCartProps> = ({ orderConfirmCallback }) => {
         </Box>
       );
     }
-    return <CartEmptyState />;
+
+    return null;
   };
 
   if (isSmallScreen) {
-    return <SwipeableEdgeDrawer header={<CartHeader />} content={<CartContent />} />;
+    return (
+      <SwipeableEdgeDrawer
+        header={<CartHeader />}
+        content={<CartContent />}
+        footer={<CartFooter />}
+      />
+    );
   }
 
   return (
     <Box
-      width="100%"
+      minHeight={400}
+      maxHeight={600}
       minWidth={360}
       alignSelf="flex-start"
-      borderRadius={2}
+      display="flex"
+      flexDirection="column"
       px={2}
       py={3}
+      ml={2}
       sx={{ backgroundColor: '#FFFFFF' }}
     >
       <CartHeader />
-      <CartContent />
+      <Box
+        sx={{
+          flex: 1,
+          overflowY: 'auto',
+        }}
+      >
+        <CartContent />
+      </Box>
+
+      <CartFooter />
     </Box>
   );
 };
