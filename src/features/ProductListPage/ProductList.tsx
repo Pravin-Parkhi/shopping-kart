@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Box, Grid, Typography } from '@mui/material';
 import type { Product } from '../../data/types/product';
 import ProductCard from '../../shared/ProductCard';
-import { getProducts } from '../../data/apis/product';
 import CenteredLoader from '../../components/CenteredLoader';
+import { getProducts } from '../../data/apis/product';
 
 const ProductList: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
