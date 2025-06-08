@@ -6,6 +6,7 @@ import CartItem from './CartItem';
 import type { CartItem as CartItemType } from '../../data/types/cart';
 import CustomButton from '../../components/Button';
 import SwipeableEdgeDrawer from '../../components/Drawer';
+import CouponWidget from '../CouponWidget';
 
 interface ProductCartProps {
   orderConfirmCallback: () => void;
@@ -14,10 +15,9 @@ interface ProductCartProps {
 const ProductCart: React.FC<ProductCartProps> = ({ orderConfirmCallback }) => {
   const theme = useTheme();
 
-  // Show drawer on screen < md (i.e., mobile + tablet)
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('md'));
 
-  const { cartItems, totalCartValue, deleteFromCart } = useCart();
+  const { cartItems, totalCartValue, appliedCoupon, discountedTotal, deleteFromCart } = useCart();
 
   const hasItemsInCart = useMemo(() => cartItems.length, [cartItems.length]);
 
@@ -65,9 +65,21 @@ const ProductCart: React.FC<ProductCartProps> = ({ orderConfirmCallback }) => {
             <Typography variant="h6" color="textSecondary">
               Order Total
             </Typography>
-            <Typography variant="h5" color="textPrimary" fontWeight={600}>
-              {`$${totalCartValue}`}
-            </Typography>
+            <Box display="flex" alignItems="center">
+              {appliedCoupon && (
+                <Typography
+                  variant="subtitle1"
+                  color="textSecondary"
+                  fontWeight={600}
+                  sx={{ textDecoration: 'line-through', pr: 1 }}
+                >
+                  {`$${totalCartValue}`}
+                </Typography>
+              )}
+              <Typography variant="h5" color="textPrimary" fontWeight={600}>
+                {`$${discountedTotal}`}
+              </Typography>
+            </Box>
           </Box>
           <Box
             borderRadius={2}
@@ -94,6 +106,9 @@ const ProductCart: React.FC<ProductCartProps> = ({ orderConfirmCallback }) => {
               </Box>{' '}
               delivery
             </Typography>
+          </Box>
+          <Box>
+            <CouponWidget />
           </Box>
           <Box pt={3}>
             <CustomButton fullWidth onClick={onConfirmOrderClick}>

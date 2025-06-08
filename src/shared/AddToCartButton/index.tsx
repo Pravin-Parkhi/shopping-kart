@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
-import { Button, Box, IconButton, Typography } from '@mui/material';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { Button, Box, IconButton, Typography, CardMedia } from '@mui/material';
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import { motion, useAnimation } from 'framer-motion';
@@ -89,7 +88,18 @@ const AddToCartButton: React.FC<AddToCartButtonProps> = ({
     <Button
       variant="outlined"
       onClick={handleAddClick}
-      startIcon={<ShoppingCartIcon color="error" />}
+      startIcon={
+        <CardMedia
+          component="img"
+          height={20}
+          sx={{
+            width: 20,
+            borderRadius: 2,
+          }}
+          image="/icon-add-to-cart.svg"
+          title="green iguana"
+        />
+      }
       sx={{
         width: 180,
         borderRadius: 10,

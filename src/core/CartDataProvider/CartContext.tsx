@@ -5,9 +5,13 @@ import type { Product } from '../../data/types/product';
 export interface CartContextProps {
   cartItems: CartItem[];
   totalCartValue: number;
+  appliedCoupon: string | null;
   addToCart: (product: Product) => void;
   removeFromCart: (product: Product) => void;
   deleteFromCart: (product: Product) => void;
+  discountedTotal: number;
+  applyCoupon: (code: string) => void;
+  removeCoupon: () => void;
   clearCart: () => void;
 }
 

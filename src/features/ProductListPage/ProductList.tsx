@@ -13,7 +13,6 @@ const ProductList: React.FC = () => {
     try {
       const products = await getProducts();
       setProductList(products);
-      console.log('Products created successfully:', products);
     } catch (err) {
       console.error(err);
       alert('Failed to fetch products. Please try again.');

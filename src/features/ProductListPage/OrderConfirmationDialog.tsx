@@ -6,10 +6,11 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import type { TransitionProps } from '@mui/material/transitions';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import { Box, Typography } from '@mui/material';
+import { Box, Tooltip, Typography } from '@mui/material';
 import { useCart } from '../../core/CartDataProvider/CartContext';
 import CartItem from '../../shared/ProductCart/CartItem';
 import CustomButton from '../../components/Button';
+import InfoOutlineIcon from '@mui/icons-material/InfoOutline';
 
 interface OrderConfirmationDialogProps {
   open: boolean;
@@ -31,7 +32,7 @@ const OrderConfirmationDialog: React.FC<OrderConfirmationDialogProps> = ({
   closeDialog,
   startNewOrderCallback,
 }) => {
-  const { cartItems, totalCartValue } = useCart();
+  const { cartItems, discountedTotal, appliedCoupon } = useCart();
 
   const handleClose = useCallback(() => {
     closeDialog();
@@ -48,10 +49,11 @@ const OrderConfirmationDialog: React.FC<OrderConfirmationDialogProps> = ({
         transition: Transition,
       }}
       keepMounted
+      fullWidth
       onClose={handleClose}
       aria-describedby="order-confirmation-dialog-description"
     >
-      <Box py={4} px={2}>
+      <Box pt={2} pb={4}>
         <DialogTitle>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <CheckCircleOutlineIcon fontSize="large" color="success" sx={{ mr: 1 }} />
@@ -70,6 +72,27 @@ const OrderConfirmationDialog: React.FC<OrderConfirmationDialogProps> = ({
             {cartItems.map((cartItem) => (
               <CartItem key={cartItem.id} cartItem={cartItem} showMedia readonly />
             ))}
+            {appliedCoupon && (
+              <Box display="flex" alignItems="center" justifyContent="space-between" pt={1}>
+                <Typography variant="body2" color="textSecondary">
+                  {'Applied Coupon'}
+                </Typography>
+                <Box display="flex" alignItems="center">
+                  <Tooltip title="18% discount is applied on total order value." placement="top">
+                    <InfoOutlineIcon fontSize="small" color="success" />
+                  </Tooltip>
+                  <Typography
+                    variant="body2"
+                    color="success"
+                    display="flex"
+                    alignItems="center"
+                    sx={{ pl: 1 }}
+                  >
+                    {`${appliedCoupon}`}
+                  </Typography>
+                </Box>
+              </Box>
+            )}
             <Box
               width="100%"
               py={2}
@@ -81,7 +104,7 @@ const OrderConfirmationDialog: React.FC<OrderConfirmationDialogProps> = ({
                 {'Order Total'}
               </Typography>
               <Typography variant="h5" color="textPrimary" fontWeight={600}>
-                {`$${totalCartValue}`}
+                {`$${discountedTotal}`}
               </Typography>
             </Box>
           </Box>
